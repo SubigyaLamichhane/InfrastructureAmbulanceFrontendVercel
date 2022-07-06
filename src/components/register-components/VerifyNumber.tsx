@@ -45,7 +45,6 @@ const VerifyNumber: React.FC<VerifyNumberProps> = ({
               authentication.currentUser
                 .getIdToken(true)
                 .then(async (idToken) => {
-                  console.log(idToken);
                   const response = await register({
                     variables: {
                       input: {
@@ -56,12 +55,12 @@ const VerifyNumber: React.FC<VerifyNumberProps> = ({
                         password: registerForm.password,
                         phoneNumber: registerForm.phoneNumber,
                         username: registerForm.username,
-                        //@ts-ignore
+                        //@ts-ignore //
                         wardNo: parseInt(registerForm.wardNo),
                       } as UserInput,
                     },
                   });
-                  console.log(response.data.register);
+
                   if (!response.data.register.user) {
                     setErrors({
                       verificationcode:
