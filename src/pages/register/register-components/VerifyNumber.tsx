@@ -38,7 +38,7 @@ const VerifyNumber: React.FC<VerifyNumberProps> = ({
       initialValues={{ verificationcode: '' }}
       onSubmit={async (values, { setErrors }) => {
         if (values.verificationcode.length === 6) {
-          //@ts-ignore
+          //@ts-ignore //to
           window.confirmationResult
             .confirm(values.verificationcode)
             .then((result) => {
