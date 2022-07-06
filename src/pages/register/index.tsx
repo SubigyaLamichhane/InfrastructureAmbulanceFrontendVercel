@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import construction from '../../assests/Asset 1.png';
 import Navbar from '../../components/Navbar';
 import { withApollo } from '../../utils/withApollo';
-import PhoneNumberEntry from './register-components/PhoneNumberEntry';
-import RegisterMain from './register-components/RegisterMain';
-import UsernameEntry from './register-components/UsernameEntry';
-import VerifyNumber from './register-components/VerifyNumber';
+import PhoneNumberEntry from '../../components/register-components/PhoneNumberEntry';
+import RegisterMain from '../../components/register-components/RegisterMain';
+import UsernameEntry from '../../components/register-components/UsernameEntry';
+import VerifyNumber from '../../components/register-components/VerifyNumber';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 

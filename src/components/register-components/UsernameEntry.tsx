@@ -1,17 +1,17 @@
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { connect } from 'react-redux';
-import HeaderText from '../../../components/Base/HeaderText';
-import BackButton from '../../../components/buttons/BackButton';
-import NextButton from '../../../components/buttons/NextButton';
-import InputField from '../../../components/InputField';
-import { useDoesUsernameExistMutation } from '../../../generated/graphql';
+import HeaderText from '../Base/HeaderText';
+import BackButton from '../buttons/BackButton';
+import NextButton from '../buttons/NextButton';
+import InputField from '../InputField';
+import { useDoesUsernameExistMutation } from '../../generated/graphql';
 import {
   RegisterFormI,
   updateForm,
   UpdateFormActionI,
-} from '../../../store/actions';
-import { StoreStateI } from '../../../store/reducers';
+} from '../../store/actions';
+import { StoreStateI } from '../../store/reducers';
 
 interface UsernameEntryProps {
   onNext: () => void;

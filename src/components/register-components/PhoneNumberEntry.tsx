@@ -1,19 +1,19 @@
 import { Form, Formik } from 'formik';
 import React from 'react';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import { authentication } from '../../../firebase-config';
-import HeaderText from '../../../components/Base/HeaderText';
-import BackButton from '../../../components/buttons/BackButton';
-import NextButton from '../../../components/buttons/NextButton';
-import InputField from '../../../components/InputField';
+import { authentication } from '../../firebase-config';
+import HeaderText from '../Base/HeaderText';
+import BackButton from '../buttons/BackButton';
+import NextButton from '../buttons/NextButton';
+import InputField from '../InputField';
 import {
   RegisterFormI,
   updateForm,
   UpdateFormActionI,
-} from '../../../store/actions';
+} from '../../store/actions';
 import { connect } from 'react-redux';
-import { StoreStateI } from '../../../store/reducers';
-import { useDoesPhoneNumberExistMutation } from '../../../generated/graphql';
+import { StoreStateI } from '../../store/reducers';
+import { useDoesPhoneNumberExistMutation } from '../../generated/graphql';
 
 interface PhoneNumberEntryProps {
   onNext: () => void;

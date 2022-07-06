@@ -1,18 +1,18 @@
-import { withApollo } from '../../../utils/withApollo';
+import { withApollo } from '../../utils/withApollo';
 import React, { useEffect, useState } from 'react';
-import HeaderText from '../../../components/Base/HeaderText';
-import NextButton from '../../../components/buttons/NextButton';
-import InputField from '../../../components/InputField';
-import { useDoesEmailExistMutation } from '../../../generated/graphql';
+import HeaderText from '../Base/HeaderText';
+import NextButton from '../buttons/NextButton';
+import InputField from '../InputField';
+import { useDoesEmailExistMutation } from '../../generated/graphql';
 import { connect } from 'react-redux';
 import {
   RegisterFormI,
   updateForm,
   UpdateFormActionI,
-} from '../../../store/actions';
-import { StoreStateI } from '../../../store/reducers';
+} from '../../store/actions';
+import { StoreStateI } from '../../store/reducers';
 import { Formik, Form } from 'formik';
-import SelectWard from '../../../components/SelectWard';
+import SelectWard from '../SelectWard';
 
 interface RegisterMainProps {
   onNext: () => void;
