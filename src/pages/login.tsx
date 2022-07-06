@@ -1,75 +1,99 @@
-import { Box, Button, Link } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
-import InputField from '../components/InputField';
-import Wrapper from '../components/Wrapper';
-import { MeDocument, MeQuery, useLoginMutation } from '../generated/graphql';
 import { withApollo } from '../utils/withApollo';
+import React, { useEffect, useState } from 'react';
+import HeaderText from '../components/Base/HeaderText';
+import NextButton from '../components/buttons/NextButton';
+import InputField from '../components/InputField';
+import { useLoginMutation } from '../generated/graphql';
+import Navbar from '../components/Navbar';
+import construction from '../assests/Asset 1.png';
+import Image from 'next/image';
+
+import { Formik, Form } from 'formik';
+import Router from 'next/router';
+import { useApolloClient } from '@apollo/client';
 
 interface LoginProps {}
 
-const Login: React.FC<LoginProps> = ({}) => {
-  const router = useRouter();
-  const [login] = useLoginMutation();
+interface FormValuesType {
+  usernameOrNumber: string;
+  password: string;
+}
 
+const Login: React.FC<LoginProps> = ({}) => {
+  const apolloClient = useApolloClient();
+  const [login] = useLoginMutation();
   return (
-    <Wrapper variant="small">
-      <Formik
-        initialValues={{ usernameOrEmail: '', password: '' }}
-        onSubmit={async (values, { setErrors }) => {
-          const { data, errors } = await login({
-            variables: { options: values },
-            update: (cache, { data }) => {
-              cache.writeQuery<MeQuery>({
-                query: MeDocument,
-                data: {
-                  __typename: 'Query',
-                  me: data?.login.user,
-                },
-              });
-            },
-          });
-          if (!data.login.user) {
-            alert('An error occured!!!');
-          } else {
-            //worked
-            router.push('/');
-          }
-        }}
-      >
-        {({ values, handleChange, isSubmitting }) => (
-          <Form>
-            <InputField
-              name="usernameOrEmail"
-              placeholder="username or email"
-              label="Username or Email"
-              textarea={false}
-            />
-            <Box mt={8}>
-              <InputField
-                name="password"
-                placeholder="password"
-                label="Password"
-                type="password"
-                textarea={false}
-              />
-            </Box>
-            <Box mt={8}>
-              <NextLink href="/forgot-password">
-                <Link>Forgot Password</Link>
-              </NextLink>
-            </Box>
-            <Box mt={8}>
-              <Button type="submit" color="teal" isLoading={isSubmitting}>
-                Login
-              </Button>
-            </Box>
-          </Form>
-        )}
-      </Formik>
-    </Wrapper>
+    <div>
+      <Navbar />
+      <div className="flex justify-between">
+        <div className="w-full md:w-3/6">
+          <Formik
+            initialValues={
+              {
+                usernameOrNumber: '',
+                password: '',
+              } as FormValuesType
+            }
+            onSubmit={async (values: FormValuesType, { setErrors }) => {
+              if (!values.usernameOrNumber) {
+                setErrors({
+                  usernameOrNumber:
+                    'Please enter your username of phone number',
+                });
+              } else if (!values.password) {
+                setErrors({
+                  password: 'Please Enter your password',
+                });
+              } else {
+                const response = await login({
+                  variables: {
+                    usernameOrNumber: values.usernameOrNumber,
+                    password: values.password,
+                  },
+                });
+                if (response.data.login.user) {
+                  await apolloClient.resetStore();
+                  Router.push('/');
+                } else {
+                  setErrors({
+                    password: 'Either username or password incorrect',
+                  });
+                }
+              }
+            }}
+          >
+            {({ values, handleChange, isSubmitting }) => {
+              return (
+                <Form autoComplete="off">
+                  <div>
+                    <HeaderText>Login</HeaderText>
+                    <div className="mt-10">
+                      <InputField
+                        name="usernameOrNumber"
+                        key="usernameOrNumber"
+                        label="Username or Phone Number"
+                        placeholder="Enter your Username or Phone Number"
+                      />
+                      <InputField
+                        name="password"
+                        type="password"
+                        key="password"
+                        label="Password"
+                        placeholder="Enter your password..."
+                      />
+                      <NextButton>Next</NextButton>
+                    </div>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
+        <div className="h-3/6 w-3/6 md:ml-10 hidden md:inline">
+          <Image src={construction} alt="construction svg"></Image>
+        </div>
+      </div>
+    </div>
   );
 };
 

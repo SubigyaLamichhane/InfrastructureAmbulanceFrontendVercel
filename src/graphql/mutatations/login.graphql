@@ -1,11 +1,10 @@
-mutation Login($options: LoginInput!) {
-  login(options: $options) {
-    errors {
-      ...RegularError
-    }
+mutation Login($usernameOrNumber: String!, $password: String!) {
+  login(usernameOrNumber: $usernameOrNumber, password: $password) {
+    errors
     user {
-      # Using fragments
-      ...RegularUser
+      id
+      username
+      isAdmin
     }
   }
 }

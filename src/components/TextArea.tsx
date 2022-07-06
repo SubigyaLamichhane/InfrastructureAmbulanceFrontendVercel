@@ -15,12 +15,7 @@ const InputField: React.FC<InputFieldProps> = ({ size: _, ...props }) => {
   return (
     <div className="w-full">
       <h2 className="text-xl">{props.label}</h2>
-      <input
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-          }
-        }}
+      <textarea
         className="
         border-2
         rounded-standard 

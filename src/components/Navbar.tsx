@@ -1,77 +1,77 @@
 import React from 'react';
-import { Box, Button, Flex, Link } from '@chakra-ui/react';
-import NextLink from 'next/link';
-import { useLogoutMutation, useMeQuery } from '../generated/graphql';
+import Link from 'next/link';
 import { isServer } from '../utils/isServer';
 import { useApolloClient } from '@apollo/client';
+import BalenChasma from '../assests/Asset 2.png';
+import Image from 'next/image';
+import LinkButton from './buttons/LinkButton';
+import { useLogoutMutation, useMeQuery } from '../generated/graphql';
+import { useRouter } from 'next/router';
+import StandardButton from './buttons/StandardButton';
 
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = ({}) => {
+  const router = useRouter();
+  const [logout, { loading: logoutFetching }] = useLogoutMutation();
   const apolloClient = useApolloClient();
   const { data, loading } = useMeQuery({
     skip: isServer(),
   });
-  const [logout, { loading: logoutLoading }] = useLogoutMutation();
 
-  let body = null;
+  const onLogout = async () => {
+    await logout({});
+    await apolloClient.resetStore();
+    router.push('/');
+  };
+
+  let buttons: any = null;
+
   if (loading) {
-    // loading
+    buttons = <div>Loading</div>;
   } else if (!data?.me) {
-    // User is not logged in
-    body = (
-      <Box ml={'auto'}>
-        <NextLink href={'/login'}>
-          <Link mr={2} color="white">
-            Login
-          </Link>
-        </NextLink>
-        <NextLink href={'/register'}>
-          <Link mr={2} color="white">
-            Register
-          </Link>
-        </NextLink>
-      </Box>
+    buttons = (
+      <div className="flex">
+        <div className="mr-2">
+          <LinkButton href="/login">Login</LinkButton>
+        </div>
+
+        <LinkButton href="/register">Register</LinkButton>
+      </div>
     );
   } else {
-    // User is logged in
-    body = (
-      <Box ml={'auto'}>
-        <NextLink href={'/'}>
-          <Link mr={2} color="white">
-            {data.me.username}
-          </Link>
-        </NextLink>
-        <Button
-          mr={2}
-          color="white"
-          variant={'link'}
-          onClick={async () => {
-            await logout();
-            await apolloClient.resetStore();
-          }}
-          isLoading={logoutLoading}
-        >
-          Logout
-        </Button>
-        {data.me.isAdmin && (
-          <NextLink href={'/approve-post'}>
-            <Link mr={2} color="white">
-              Approve Posts
-            </Link>
-          </NextLink>
-        )}
-      </Box>
+    buttons = (
+      <div>
+        <div className="flex">
+          <div className="mr-2">
+            <LinkButton href="/create-complain">Create Complain</LinkButton>
+          </div>
+          <div>
+            <StandardButton onClick={onLogout}>Logout</StandardButton>
+          </div>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box bg="grey" p={4}>
-      <Flex>
-        Kec Thoughts
-        {body}
-      </Flex>
-    </Box>
+    <div className="flex my-6 justify-between items-center">
+      <Link href="/">
+        <div className="flex items-center">
+          <div className="">
+            <Image src={BalenChasma} alt="Logo" />
+          </div>
+          <div className="">
+            <h1 className="ml-3 text-2xl">
+              Infrastructure
+              <br />
+              Ambulance
+            </h1>
+          </div>
+        </div>
+      </Link>
+      {buttons}
+    </div>
   );
 };
 
