@@ -1,0 +1,23 @@
+query CompletedComplains($limit: Int!, $cursor: String) {
+  completedComplains(limit: $limit, cursor: $cursor) {
+    complains {
+      id
+      descriptionSnippet
+      title
+      createdAt
+      latitude
+      longitude
+      wardNo
+      latitude
+      imagePublicId
+      createdAt
+      user {
+        user {
+          id
+          username
+        }
+      }
+    }
+    hasMore
+  }
+}
