@@ -5,7 +5,7 @@ export const client = (ctx) =>
   new ApolloClient({
     // uri: process.env.GRAPHQL_SERVER as string,
     // uri: process.env.NEXT_PUBLIC_API_URL,
-    uri: 'https://infrastructureambulance.onrender.com/graphql',
+    uri: 'http://localhost:5000/graphql',
     credentials: 'include',
     headers: {
       cookie: ctx?.req?.headers?.cookie,

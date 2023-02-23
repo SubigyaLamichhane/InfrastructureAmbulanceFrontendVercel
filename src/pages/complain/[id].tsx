@@ -14,7 +14,7 @@ import { connect, Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { StoreStateI } from '../../store/reducers';
 import Navbar from '../../components/Navbar';
-import ComplainHelper from './ComplainHelper';
+import ComplainHelper from '../../components/ComplainHelper';
 import { isServer } from '../../utils/isServer';
 import { useMarkCompletedMutation } from '../../generated/graphql';
 

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { StoreStateI } from '../../store/reducers';
-import { setYellowDotMarker } from '../../utils/getMap';
+import { StoreStateI } from '../store/reducers';
+import { setYellowDotMarker } from '../utils/getMap';
 import dynamic from 'next/dynamic';
 
-const Map = dynamic(() => import('../../components/Map'), {
+const Map = dynamic(() => import('./Map'), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });

@@ -1,21 +1,24 @@
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import React from 'react';
-import StandardButton from '../../../components/buttons/StandardButton';
-import MapOG from '../../../components/Map';
-import Navbar from '../../../components/Navbar';
+import StandardButton from './buttons/StandardButton';
+import MapOG from './Map';
+import Navbar from './Navbar';
 
 import { Image, CloudinaryContext } from 'cloudinary-react';
 import { connect } from 'react-redux';
-import { useComplainsQuery, useMeQuery } from '../../../generated/graphql';
-import { StoreStateI } from '../../../store/reducers';
-import { setYellowDotMarker } from '../../../utils/getMap';
-import { isServer } from '../../../utils/isServer';
-import { useComplainsByCategoryQuery } from '../../../generated/graphql';
-import SelectWard from '../../../components/SelectWardMainPage';
-import SelectCategory from '../../../components/SelectCategoryMainPage';
+import {
+  useComplainsQuery,
+  useMeQuery,
+  useComplainsByWardQuery,
+} from '../generated/graphql';
+import { StoreStateI } from '../store/reducers';
+import { setYellowDotMarker } from '../utils/getMap';
+import { isServer } from '../utils/isServer';
+import SelectWard from './SelectWardMainPage';
+import SelectCategory from './SelectCategoryMainPage';
 
-const Map = dynamic(() => import('../../../components/Map'), {
+const Map = dynamic(() => import('./Map'), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
@@ -24,12 +27,12 @@ interface IndexHelperProps {}
 
 const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
   const router = useRouter();
-  const { category } = router.query;
-  const { data, loading, fetchMore, variables } = useComplainsByCategoryQuery({
+  const { id } = router.query;
+  const { data, loading, fetchMore, variables } = useComplainsByWardQuery({
     variables: {
       limit: 15,
       cursor: null,
-      category: category as string,
+      wardNo: parseInt(id as string),
     },
   });
   console.log('data', data, 'loading', loading, 'variables', variables);
@@ -46,17 +49,16 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
   }
 
   if (data) {
-    if (data.complainsByCategory.complains.length === 0) {
+    if (data.complainsByWard.complains.length === 0) {
       return (
         <div className="">
           <Navbar />
           <div className="flex mt-4">
-            <div className="ml-11">
-              There are no complains in this category.
-            </div>
+            <div className="ml-11">There are no complains in this ward.</div>
             <div className="flex">
               <div className="mr-2 w-full">
                 <SelectWard
+                  value={id as string}
                   onChange={(e) => {
                     router.push('/complains/ward/' + e.target.value);
                   }}
@@ -64,7 +66,6 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
               </div>
 
               <SelectCategory
-                value={category as string}
                 onChange={(e) => {
                   router.push('/complains/category/' + e.target.value);
                 }}
@@ -76,6 +77,10 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
     }
   }
 
+  // if (loading) {
+  //   return <div className="">loading...</div>;
+  // }
+
   if (!MeLoading && meData) {
     //if (meData.me) {
     return (
@@ -85,7 +90,7 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
         <div className="flex mt-4">
           {data && (
             //@ts-ignore
-            <Map complains={data.complainsByCategory.complains}></Map>
+            <Map complains={data.complainsByWard.complains}></Map>
           )}
           <div
             className="
@@ -108,6 +113,7 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
             <div className="flex">
               <div className="mr-2 w-full">
                 <SelectWard
+                  value={id as string}
                   onChange={(e) => {
                     router.push('/complains/ward/' + e.target.value);
                   }}
@@ -115,14 +121,13 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
               </div>
 
               <SelectCategory
-                value={category as string}
                 onChange={(e) => {
                   router.push('/complains/category/' + e.target.value);
                 }}
               />
             </div>
             {data &&
-              data.complainsByCategory.complains.map((complain) => {
+              data.complainsByWard.complains.map((complain) => {
                 setYellowDotMarker(complain.latitude, complain.longitude);
                 return (
                   <div
@@ -184,8 +189,7 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
                   </div>
                 );
               })}
-
-            {data && data.complainsByCategory.hasMore ? (
+            {data && data.complainsByWard.hasMore ? (
               <div className="flex my-4">
                 <div className="m-auto my-4">
                   <StandardButton
@@ -194,7 +198,7 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
                         variables: {
                           limit: variables!.limit,
                           cursor:
-                            data.complainsByCategory.complains[
+                            data.complainsByWard.complains[
                               data.complainsByWard.complains.length - 1
                             ].createdAt,
                         },

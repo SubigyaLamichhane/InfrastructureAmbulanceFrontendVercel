@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Provider } from 'react-redux';
-import CategoryHelper from './CategoryHelper';
+import CategoryHelper from '../../../components/CategoryHelper';
 import { store } from '../../../store/store';
 import { withApollo } from '../../../utils/withApollo';
 
