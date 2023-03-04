@@ -20,8 +20,8 @@ export default class Document extends NextDocument {
           src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js"
         ></Script>
 
-        <body className="mx-6 bg-white text-gray-700">
-          <div className="max-w-6xl m-auto">
+        <body className=" bg-gray-300 text-gray-700">
+          <div className=" m-auto">
             <ColorModeScript />
             <Main />
             <NextScript />

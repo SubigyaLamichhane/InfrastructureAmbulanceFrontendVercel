@@ -81,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   }
 
   return (
-    <div className="flex my-6 justify-between items-center pb-2 pr-2 shadow-md">
+    <div className="flex mb-6 pt-4 bg-white justify-between items-center pb-4 pr-2 shadow-md">
       <Link href="/">
         <div className="flex items-center">
           <div className="scale-75">

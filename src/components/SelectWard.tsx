@@ -12,9 +12,8 @@ const SelectField: React.FC<SelectFieldProps> = ({ size: _, ...props }) => {
         className="
         bg-blank
         w-full
-        p-[24px]
-        
         mb-2
+        
         "
         {...props}
         autoComplete="off"

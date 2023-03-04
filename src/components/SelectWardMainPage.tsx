@@ -9,10 +9,12 @@ const SelectField: React.FC<SelectFieldProps> = ({ size: _, ...props }) => {
     <div className="w-full">
       <select
         className="
-        bg-blank
+        bg-white
+        rounded-xl
         w-full
-        p-[24px]
-        
+        p-[14px]
+        border-2
+        border-[#374151]
         mb-2
         "
         {...props}

@@ -72,10 +72,10 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
   if (!MeLoading && meData) {
     //if (meData.me) {
     return (
-      <div className="">
+      <div className="bg-gray-300">
         <Navbar />
 
-        <div className="flex">
+        <div className="flex justify-between px-4">
           {data && (
             //@ts-ignore
             <Map complains={data.complains.complains}></Map>
@@ -83,22 +83,15 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
           <div
             className="
                 ml-11 
-                overflow-hidden 
+                
+                w-full
                 lg:overflow-auto 
-                scrollbar:!w-1.5 
-                scrollbar:!h-1.5 
-                scrollbar:bg-transparent 
-                scrollbar-track:!bg-slate-100 
-                scrollbar-thumb:!rounded 
-                scrollbar-thumb:!bg-slate-300 
-                scrollbar-track:!rounded 
-                dark:scrollbar-track:!bg-slate-500/[0.16] 
-                dark:scrollbar-thumb:!bg-slate-500/50 
+                scrollbar
                 max-h-[550px] 
                 supports-scrollbars:pr-2 
               "
           >
-            <div className="flex">
+            <div className="flex justify-between">
               <div className="mr-2 w-full">
                 <SelectWard
                   onChange={(e) => {
@@ -120,65 +113,77 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
                   <div
                     onClick={() => router.push('/complain/' + complain.id)}
                     key={complain.id}
-                    id={complain.id}
+                    id={complain.id.toString()}
                     className="
                 w-full
                 mt-4
                 border-2
+                rounded-lg
+                bg-white
                 rounded-standard 
               border-black 
                 p-8
+                flex
+                cursor-pointer
               "
                   >
-                    <CloudinaryContext cloudName="infrastructure-ambulance">
+                    <CloudinaryContext
+                      theme="thumb"
+                      cloudName="infrastructure-ambulance"
+                    >
                       <div>
                         {complain.imagePublicId && (
                           <Image
                             publicId={complain.imagePublicId}
-                            width="500"
+                            height="300"
+                            width="300"
                             alt="complain-picture"
                           />
                         )}
                       </div>
                     </CloudinaryContext>
-                    <h2
-                      className="
+                    <div className="p-2 flex flex-col justify-between">
+                      <div>
+                        <h2
+                          className="
                   text-xl
                   font-semibold
                 "
-                    >
-                      {complain.title}
-                    </h2>
-                    <p>{complain.descriptionSnippet}</p>
-                    <div className="mt-2 flex justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold">
-                          Ward Number:{' '}
-                          <span className="text-gray-600">
-                            {complain.wardNo}
-                          </span>
-                        </h3>
+                        >
+                          {complain.title}
+                        </h2>
+                        <p>{complain.descriptionSnippet}</p>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold">
-                          Posted By:{' '}
-                          <span
-                            onClick={() =>
-                              router.push('/profile/' + complain.user.user.id)
-                            }
-                            className="text-gray-600"
-                          >
-                            {complain.user.user.username}
-                          </span>
-                        </h3>
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold">
-                          Date:{' '}
-                          <span className="text-gray-600">
-                            {convertToActualDate(complain.createdAt)}
-                          </span>
-                        </h3>
+                      <div className="mt-2 justify-between">
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            Ward Number:{' '}
+                            <span className="text-gray-600">
+                              {complain.wardNo}
+                            </span>
+                          </h3>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            Posted By:{' '}
+                            <span
+                              onClick={() =>
+                                router.push('/profile/' + complain.user.user.id)
+                              }
+                              className="text-gray-600"
+                            >
+                              {complain.user.user.username}
+                            </span>
+                          </h3>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold">
+                            Date:{' '}
+                            <span className="text-gray-600">
+                              {convertToActualDate(complain.createdAt)}
+                            </span>
+                          </h3>
+                        </div>
                       </div>
                     </div>
                   </div>
