@@ -8,6 +8,7 @@ query Complains($limit: Int!, $cursor: String) {
       latitude
       longitude
       wardNo
+      category
       latitude
       imagePublicId
       user {

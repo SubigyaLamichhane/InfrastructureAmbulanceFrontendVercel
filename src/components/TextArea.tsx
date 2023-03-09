@@ -17,7 +17,10 @@ const InputField: React.FC<InputFieldProps> = ({ size: _, ...props }) => {
       <h2 className="text-xl">{props.label}</h2>
       <textarea
         className="
-        bg-blank
+        bg-white
+        border-2
+        border-[#374151]
+        rounded-xl
         w-full
         p-[24px]
         

@@ -292,7 +292,7 @@ export type CreateComplainMutationVariables = Exact<{
 }>;
 
 
-export type CreateComplainMutation = { __typename?: 'Mutation', createComplain: { __typename?: 'Complain', id: number, descriptionSnippet: string, title: string, createdAt: string, latitude: number, longitude: number, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string } | null } } };
+export type CreateComplainMutation = { __typename?: 'Mutation', createComplain: { __typename?: 'Complain', id: number, descriptionSnippet: string, title: string, createdAt: string, latitude: number, longitude: number, wardNo: number, category: string, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string } | null } } };
 
 export type DeleteComplainMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -371,7 +371,7 @@ export type ComplainsQueryVariables = Exact<{
 }>;
 
 
-export type ComplainsQuery = { __typename?: 'Query', complains: { __typename?: 'PaginatedComplains', hasMore: boolean, complains: Array<{ __typename?: 'Complain', id: number, descriptionSnippet: string, title: string, createdAt: string, latitude: number, longitude: number, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string } | null } }> } };
+export type ComplainsQuery = { __typename?: 'Query', complains: { __typename?: 'PaginatedComplains', hasMore: boolean, complains: Array<{ __typename?: 'Complain', id: number, descriptionSnippet: string, title: string, createdAt: string, latitude: number, longitude: number, wardNo: number, category: string, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string } | null } }> } };
 
 export type ComplainsByCategoryQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -389,7 +389,7 @@ export type ComplainsByUserQueryVariables = Exact<{
 }>;
 
 
-export type ComplainsByUserQuery = { __typename?: 'Query', complainsByUser: { __typename?: 'PaginatedComplains', hasMore: boolean, complains: Array<{ __typename?: 'Complain', title: string, description: string, latitude: number, longitude: number, createdAt: string, category: string, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string, firstname: string, lastname: string, phonenumber: any, email: string } | null } }> } };
+export type ComplainsByUserQuery = { __typename?: 'Query', complainsByUser: { __typename?: 'PaginatedComplains', hasMore: boolean, complains: Array<{ __typename?: 'Complain', id: number, title: string, description: string, descriptionSnippet: string, latitude: number, longitude: number, createdAt: string, category: string, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string, firstname: string, lastname: string, phonenumber: any, email: string } | null } }> } };
 
 export type ComplainsCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -409,7 +409,7 @@ export type CompletedComplainsQueryVariables = Exact<{
 }>;
 
 
-export type CompletedComplainsQuery = { __typename?: 'Query', completedComplains: { __typename?: 'PaginatedCompletedComplains', hasMore: boolean, complains: Array<{ __typename?: 'CompletedComplain', id: number, descriptionSnippet: string, title: string, createdAt: string, latitude: number, longitude: number, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string } | null } }> } };
+export type CompletedComplainsQuery = { __typename?: 'Query', completedComplains: { __typename?: 'PaginatedCompletedComplains', hasMore: boolean, complains: Array<{ __typename?: 'CompletedComplain', id: number, descriptionSnippet: string, title: string, createdAt: string, latitude: number, longitude: number, wardNo: number, imagePublicId: string, category: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string } | null } }> } };
 
 export type CompletedComplainsByUserQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -418,7 +418,7 @@ export type CompletedComplainsByUserQueryVariables = Exact<{
 }>;
 
 
-export type CompletedComplainsByUserQuery = { __typename?: 'Query', completedComplainsByUser: { __typename?: 'PaginatedCompletedComplains', hasMore: boolean, complains: Array<{ __typename?: 'CompletedComplain', title: string, description: string, latitude: number, longitude: number, createdAt: string, category: string, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string, firstname: string, lastname: string, phonenumber: any, email: string } | null } }> } };
+export type CompletedComplainsByUserQuery = { __typename?: 'Query', completedComplainsByUser: { __typename?: 'PaginatedCompletedComplains', hasMore: boolean, complains: Array<{ __typename?: 'CompletedComplain', id: number, title: string, descriptionSnippet: string, latitude: number, longitude: number, createdAt: string, category: string, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string, firstname: string, lastname: string, phonenumber: any, email: string } | null } }> } };
 
 export type CompletedComplainsCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -448,6 +448,7 @@ export const CreateComplainDocument = gql`
     latitude
     longitude
     wardNo
+    category
     latitude
     imagePublicId
     user {
@@ -865,6 +866,7 @@ export const ComplainsDocument = gql`
       latitude
       longitude
       wardNo
+      category
       latitude
       imagePublicId
       user {
@@ -966,8 +968,10 @@ export const ComplainsByUserDocument = gql`
     query ComplainsByUser($limit: Int!, $userId: Int!, $cursor: String) {
   complainsByUser(limit: $limit, userId: $userId, cursor: $cursor) {
     complains {
+      id
       title
       description
+      descriptionSnippet
       latitude
       longitude
       createdAt
@@ -1116,6 +1120,7 @@ export const CompletedComplainsDocument = gql`
       wardNo
       latitude
       imagePublicId
+      category
       createdAt
       user {
         user {
@@ -1161,8 +1166,9 @@ export const CompletedComplainsByUserDocument = gql`
     query CompletedComplainsByUser($limit: Int!, $userId: Int!, $cursor: String) {
   completedComplainsByUser(limit: $limit, userId: $userId, cursor: $cursor) {
     complains {
+      id
       title
-      description
+      descriptionSnippet
       latitude
       longitude
       createdAt

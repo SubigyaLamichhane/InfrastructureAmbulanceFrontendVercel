@@ -1,8 +1,10 @@
 query ComplainsByUser($limit: Int!, $userId: Int!, $cursor: String) {
   complainsByUser(limit: $limit, userId: $userId, cursor: $cursor) {
     complains {
+      id
       title
       description
+      descriptionSnippet
       latitude
       longitude
       createdAt

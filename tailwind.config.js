@@ -57,7 +57,7 @@ module.exports = {
         h4: '1.999em',
         h5: '1.414em',
         p: '1em',
-        sm: '0.707em',
+        // sm: '0.707em',
         xsm: '0.5em',
         phoneh5: '1.25em',
         phoneh4: '1.563em',
@@ -72,5 +72,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwind-scrollbar')],
+  plugins: [require('tw-elements/dist/plugin')],
 };

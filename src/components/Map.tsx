@@ -112,6 +112,61 @@ const renderMap = (
   }
   //@ts-ignore
   if (!isServer()) {
+    if (complains[0].id === 'modal') {
+      return (
+        <div>
+          <MapContainer
+            center={[27.705308474955412, 85.323323]}
+            zoom={12}
+            scrollWheelZoom={true}
+            style={{ height: '70vh', width: '90vw' }}
+          >
+            {/* <Markers onClick={onClick} latlng={latlng} /> */}
+            <TileLayer
+              eventHandlers={{
+                click: (e) => {
+                  onClick(e);
+                },
+              }}
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {latlng[0] && (
+              <Marker
+                position={latlng}
+                icon={
+                  new Icon({
+                    iconUrl:
+                      'https://niftymarketing.com/wp-content/uploads/2015/09/map-marker-icon.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [13, 41],
+                  })
+                }
+              ></Marker>
+            )}
+            <MapConsumer>
+              {(map) => {
+                // console.log('map center:', map.getCenter());
+                map.on('click', (e) => {
+                  onClick(e);
+                  // const { lat, lng } = e.latlng;
+                  // L.marker([lat, lng], {
+                  //   icon: new Icon({
+                  //     iconUrl:
+                  //       'https://niftymarketing.com/wp-content/uploads/2015/09/map-marker-icon.png',
+                  //     iconSize: [25, 41],
+                  //     iconAnchor: [13, 41],
+                  //   }),
+                  // }).addTo(map);
+                });
+
+                return null;
+              }}
+            </MapConsumer>
+          </MapContainer>
+        </div>
+      );
+    }
     if (complains[0].id === 'create-complain') {
       // console.log(latlng);
       return (

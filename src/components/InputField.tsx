@@ -22,8 +22,11 @@ const InputField: React.FC<InputFieldProps> = ({ size: _, ...props }) => {
           }
         }}
         className="
-        bg-blank
+        bg-white
+        rounded-lg
         w-full
+        border-2
+        border-[#374151]
         p-[24px]
         
         mb-2

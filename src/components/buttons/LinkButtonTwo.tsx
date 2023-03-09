@@ -21,7 +21,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
       rounded-full
       group
       smooth-shadow
-      hover:px-[40px]
+      hover:bg-gray-600
       w-full
       lg:w-fit
       "

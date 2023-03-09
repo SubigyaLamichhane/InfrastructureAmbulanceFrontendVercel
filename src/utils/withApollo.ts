@@ -1,5 +1,12 @@
 import { withApollo as createWithApollo } from 'next-apollo';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import {
+  PaginatedComplains,
+  CompletedComplain,
+  PaginatedCompletedComplains,
+} from '../generated/graphql';
+// import { Complain, ComplainsQuery, PaginatedComplains } from '../generated/graphql';
+import { updateForm } from '../store/actions/registerForm';
 
 export const client = (ctx) =>
   new ApolloClient({
@@ -18,6 +25,54 @@ export const client = (ctx) =>
         Query: {
           fields: {
             doesEmailExist: {},
+            complains: {
+              keyArgs: [], // Enter the variables that are not related to paginatoin eg ['query']
+              merge(
+                existing: PaginatedComplains | undefined,
+                incoming: PaginatedComplains
+              ): PaginatedComplains {
+                return {
+                  __typename: 'PaginatedComplains',
+                  hasMore: incoming.hasMore,
+                  complains: [
+                    ...(existing?.complains || []),
+                    ...incoming.complains,
+                  ],
+                };
+              },
+            },
+            completedComplains: {
+              keyArgs: [], // Enter the variables that are not related to paginatoin eg ['query']
+              merge(
+                existing: PaginatedCompletedComplains | undefined,
+                incoming: PaginatedCompletedComplains
+              ): PaginatedCompletedComplains {
+                return {
+                  __typename: 'PaginatedCompletedComplains',
+                  hasMore: incoming.hasMore,
+                  complains: [
+                    ...(existing?.complains || []),
+                    ...incoming.complains,
+                  ],
+                };
+              },
+            },
+            complainsByUser: {
+              keyArgs: [], // Enter the variables that are not related to paginatoin eg ['query']
+              merge(
+                existing: PaginatedCompletedComplains | undefined,
+                incoming: PaginatedCompletedComplains
+              ): PaginatedCompletedComplains {
+                return {
+                  __typename: 'PaginatedCompletedComplains',
+                  hasMore: incoming.hasMore,
+                  complains: [
+                    ...(existing?.complains || []),
+                    ...incoming.complains,
+                  ],
+                };
+              },
+            },
           },
         },
       },

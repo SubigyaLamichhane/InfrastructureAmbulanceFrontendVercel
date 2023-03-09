@@ -26,7 +26,7 @@ const Login: React.FC<LoginProps> = ({}) => {
   return (
     <div>
       <Navbar />
-      <div className="flex justify-between">
+      <div className="flex justify-between px-4">
         <div className="w-full md:w-3/6">
           <Formik
             initialValues={
@@ -36,6 +36,7 @@ const Login: React.FC<LoginProps> = ({}) => {
               } as FormValuesType
             }
             onSubmit={async (values: FormValuesType, { setErrors }) => {
+              console.log(values);
               if (!values.usernameOrNumber) {
                 setErrors({
                   usernameOrNumber:

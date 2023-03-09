@@ -1,8 +1,9 @@
 query CompletedComplainsByUser($limit: Int!, $userId: Int!, $cursor: String) {
   completedComplainsByUser(limit: $limit, userId: $userId, cursor: $cursor) {
     complains {
+      id
       title
-      description
+      descriptionSnippet
       latitude
       longitude
       createdAt

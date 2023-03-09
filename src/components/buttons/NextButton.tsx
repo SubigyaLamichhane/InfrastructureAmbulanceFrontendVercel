@@ -10,6 +10,7 @@ const LinkButton: React.FC<NextButtonProps> = ({ children, ...props }) => {
       <button
         type="submit"
         className="
+        max-h-[78px]
         px-[48px]
         py-[24px]
         bg-gradient-to-r 

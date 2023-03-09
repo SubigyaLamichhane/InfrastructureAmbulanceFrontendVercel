@@ -20,7 +20,7 @@ const LinkButtonTwo: React.FC<LinkButtonProps> = ({
       rounded-full
       group
       smooth-shadow
-      hover:px-[40px]
+      hover:bg-gray-300
       hover:cursor-pointer
       "
       {...props}
