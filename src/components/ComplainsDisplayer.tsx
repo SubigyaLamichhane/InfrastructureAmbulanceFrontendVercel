@@ -49,7 +49,7 @@ const ComplainsDisplayer: React.FC<ComplainsDisplayerProps> = ({
               "
       >
         <div className="flex justify-between">
-          <div className="mr-2 w-full">
+          <div className="mr-4 w-full">
             <SelectWard
               onChange={(e) => {
                 router.push('/complains/ward/' + e.target.value);
@@ -63,6 +63,7 @@ const ComplainsDisplayer: React.FC<ComplainsDisplayerProps> = ({
             }}
           />
         </div>
+        {/* <h4>All Complains</h4> */}
         {complains.map((complain) => {
           setYellowDotMarker(complain.latitude, complain.longitude);
           return (
@@ -121,7 +122,7 @@ const ComplainsDisplayer: React.FC<ComplainsDisplayerProps> = ({
                 <div className="mt-2 flex justify-between">
                   <div>
                     <div className="flex flex-col justify-end">
-                      <p className="text-[16px]">
+                      <p className="text-[14px] leading-4">
                         Category:{' '}
                         <span className="text-gray-600 font-semibold">
                           {complain.category}
@@ -129,7 +130,7 @@ const ComplainsDisplayer: React.FC<ComplainsDisplayerProps> = ({
                       </p>
                     </div>
                     <div className="flex flex-col justify-end">
-                      <p className="text-[16px]">
+                      <p className="text-[14px] leading-4">
                         Date:{' '}
                         <span className="text-gray-600 font-semibold">
                           {convertToActualDate(complain.createdAt)}
@@ -139,7 +140,7 @@ const ComplainsDisplayer: React.FC<ComplainsDisplayerProps> = ({
                   </div>
                   <div>
                     <div className="flex justify-end">
-                      <p className="text-[16px]">
+                      <p className="text-[14px] leading-4">
                         Ward Number:{' '}
                         <span className="text-gray-600 font-semibold">
                           {complain.wardNo}
@@ -152,7 +153,7 @@ const ComplainsDisplayer: React.FC<ComplainsDisplayerProps> = ({
                         router.push('/profile/' + complain.user.user.id)
                       }
                     >
-                      <p className="text-[16px]">
+                      <p className="text-[14px] leading-4">
                         Posted By:{' '}
                         <span className="text-gray-600 font-semibold">
                           {complain.user.user.username}

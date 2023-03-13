@@ -201,13 +201,13 @@
   --tw-gradient-to: #ff9f17; */
   background-color: #374151;
   border-radius: 50vh;
-  border: 6px solid #d1d5db;
+  border: 6px solid #f4f2dd;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #374151;
   border-radius: 50vh;
-  border: 5.75px solid #d1d5db;
+  border: 5.75px solid #f4f2dd;
 }
 
 .gradient-primary {

@@ -175,10 +175,10 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                 //   setErrors({
                 //     description: 'Please enter the location on the map',
                 //   });
-                // } else if (!imagePublicId) {
-                //   setErrors({
-                //     description: 'Select an image',
-                //   });
+              } else if (!imagePublicId) {
+                setErrors({
+                  description: 'Select an image',
+                });
               } else if (!latitudeAndLongitudeActual.latitude) {
                 setErrors({
                   description: 'Select the location on the map',
@@ -197,7 +197,7 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                       longitude: latitudeAndLongitudeActual.latitude,
                       title: values.title,
                       wardNo: parseInt(values.wardNo.toString()),
-                      imagePublicId: 'strlbhrlvfnetj33oygo',
+                      imagePublicId,
                     } as ComplainInput,
                   },
 
@@ -276,9 +276,9 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                     });
                   },
                 });
+                Router.push('/');
 
                 if (response.data.createComplain.id) {
-                  Router.push('/');
                 } else {
                   setErrors({
                     description: 'An error occured.',

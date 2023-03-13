@@ -12,7 +12,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ size: _, ...props }) => {
         bg-white
         rounded-xl
         w-full
-        p-[14px]
+        p-[10px]
         border-2
         border-[#374151]
         mb-2

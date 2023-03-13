@@ -79,7 +79,7 @@ const IndexHelper: React.FC<IndexHelperProps> = ({}) => {
 
     //if (meData.me) {
     return (
-      <div className="bg-gray-300 overflow-hidden">
+      <div className=" overflow-hidden">
         <Navbar />
 
         <div className="flex justify-between px-4">

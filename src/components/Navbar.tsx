@@ -82,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   }
 
   return (
-    <div className="flex justfy-between mb-6 py-3 md:pt-4 bg-white justify-between items-center md:pb-4 pr-2 shadow-md">
+    <div className="flex justfy-between mb-6 py-3 md:pt-4 bg-gradient-to-r to-[#f6f9be] from-[#f2efe9] justify-between items-center md:pb-4 pr-2 shadow-xl">
       <Link href="/">
         <div className="flex items-center">
           <div className="hidden md:visible md:block scale-50 md:scale-75">
