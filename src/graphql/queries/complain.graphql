@@ -8,6 +8,9 @@ query Complain($id: Int!) {
     category
     wardNo
     imagePublicId
+    estimatedCost
+    estimatedTime
+    estimated
     user {
       user {
         id

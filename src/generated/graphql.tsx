@@ -25,6 +25,9 @@ export type Complain = {
   creatorId: Scalars['Float'];
   description: Scalars['String'];
   descriptionSnippet: Scalars['String'];
+  estimated: Scalars['Boolean'];
+  estimatedCost: Scalars['Float'];
+  estimatedTime: Scalars['Float'];
   id: Scalars['Int'];
   imagePublicId: Scalars['String'];
   latitude: Scalars['Float'];
@@ -79,6 +82,7 @@ export type Mutation = {
   doesEmailExist: Scalars['Boolean'];
   doesPhoneNumberExist: Scalars['Boolean'];
   doesUsernameExist: Scalars['Boolean'];
+  estimate: Scalars['Boolean'];
   login: UserResponse;
   logout: Scalars['Boolean'];
   markCompleted: Scalars['Boolean'];
@@ -125,6 +129,13 @@ export type MutationDoesPhoneNumberExistArgs = {
 
 export type MutationDoesUsernameExistArgs = {
   username: Scalars['String'];
+};
+
+
+export type MutationEstimateArgs = {
+  estimatedCost: Scalars['Int'];
+  estimatedTime: Scalars['Int'];
+  id: Scalars['Int'];
 };
 
 
@@ -322,6 +333,15 @@ export type DoesUsernameExistMutationVariables = Exact<{
 
 export type DoesUsernameExistMutation = { __typename?: 'Mutation', doesUsernameExist: boolean };
 
+export type EstimateMutationVariables = Exact<{
+  id: Scalars['Int'];
+  estimatedCost: Scalars['Int'];
+  estimatedTime: Scalars['Int'];
+}>;
+
+
+export type EstimateMutation = { __typename?: 'Mutation', estimate: boolean };
+
 export type LoginMutationVariables = Exact<{
   usernameOrNumber: Scalars['String'];
   password: Scalars['String'];
@@ -363,7 +383,7 @@ export type ComplainQueryVariables = Exact<{
 }>;
 
 
-export type ComplainQuery = { __typename?: 'Query', complain?: { __typename?: 'Complain', title: string, description: string, latitude: number, longitude: number, createdAt: string, category: string, wardNo: number, imagePublicId: string, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string, firstname: string, lastname: string, phonenumber: any, email: string } | null } } | null };
+export type ComplainQuery = { __typename?: 'Query', complain?: { __typename?: 'Complain', title: string, description: string, latitude: number, longitude: number, createdAt: string, category: string, wardNo: number, imagePublicId: string, estimatedCost: number, estimatedTime: number, estimated: boolean, user: { __typename?: 'CreatorUserResponse', user?: { __typename?: 'User', id: number, username: string, firstname: string, lastname: string, phonenumber: any, email: string } | null } } | null };
 
 export type ComplainsQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -610,6 +630,39 @@ export function useDoesUsernameExistMutation(baseOptions?: Apollo.MutationHookOp
 export type DoesUsernameExistMutationHookResult = ReturnType<typeof useDoesUsernameExistMutation>;
 export type DoesUsernameExistMutationResult = Apollo.MutationResult<DoesUsernameExistMutation>;
 export type DoesUsernameExistMutationOptions = Apollo.BaseMutationOptions<DoesUsernameExistMutation, DoesUsernameExistMutationVariables>;
+export const EstimateDocument = gql`
+    mutation Estimate($id: Int!, $estimatedCost: Int!, $estimatedTime: Int!) {
+  estimate(id: $id, estimatedTime: $estimatedTime, estimatedCost: $estimatedCost)
+}
+    `;
+export type EstimateMutationFn = Apollo.MutationFunction<EstimateMutation, EstimateMutationVariables>;
+
+/**
+ * __useEstimateMutation__
+ *
+ * To run a mutation, you first call `useEstimateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEstimateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [estimateMutation, { data, loading, error }] = useEstimateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      estimatedCost: // value for 'estimatedCost'
+ *      estimatedTime: // value for 'estimatedTime'
+ *   },
+ * });
+ */
+export function useEstimateMutation(baseOptions?: Apollo.MutationHookOptions<EstimateMutation, EstimateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EstimateMutation, EstimateMutationVariables>(EstimateDocument, options);
+      }
+export type EstimateMutationHookResult = ReturnType<typeof useEstimateMutation>;
+export type EstimateMutationResult = Apollo.MutationResult<EstimateMutation>;
+export type EstimateMutationOptions = Apollo.BaseMutationOptions<EstimateMutation, EstimateMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($usernameOrNumber: String!, $password: String!) {
   login(usernameOrNumber: $usernameOrNumber, password: $password) {
@@ -814,6 +867,9 @@ export const ComplainDocument = gql`
     category
     wardNo
     imagePublicId
+    estimatedCost
+    estimatedTime
+    estimated
     user {
       user {
         id

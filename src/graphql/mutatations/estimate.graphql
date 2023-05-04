@@ -1,0 +1,7 @@
+mutation Estimate($id: Int!, $estimatedCost: Int!, $estimatedTime: Int!) {
+  estimate(
+    id: $id
+    estimatedTime: $estimatedTime
+    estimatedCost: $estimatedCost
+  )
+}

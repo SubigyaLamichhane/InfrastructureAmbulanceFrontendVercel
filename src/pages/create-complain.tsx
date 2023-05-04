@@ -1,11 +1,11 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import HeaderText from '../components/Base/HeaderText';
-import NextButton from '../components/buttons/NextButton';
-import InputField from '../components/InputField';
-import Navbar from '../components/Navbar';
-import { FileUploader } from 'react-drag-drop-files';
-import { ArrowRightIcon } from '@chakra-ui/icons';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import HeaderText from "../components/Base/HeaderText";
+import NextButton from "../components/buttons/NextButton";
+import InputField from "../components/InputField";
+import Navbar from "../components/Navbar";
+import { FileUploader } from "react-drag-drop-files";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 // import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage';
 import {
   ComplainInput,
@@ -13,23 +13,23 @@ import {
   ComplainsDocument,
   ComplainsQuery,
   useCreateComplainMutation,
-} from '../generated/graphql';
-import { client, withApollo } from '../utils/withApollo';
+} from "../generated/graphql";
+import { client, withApollo } from "../utils/withApollo";
 
-import { Form, Formik } from 'formik';
-import Router from 'next/router';
-import { Provider } from 'react-redux';
-import SelectCategory from '../components/SelectCategory';
-import SelectWard from '../components/SelectWard';
-import TextArea from '../components/TextArea';
-import { store } from '../store/store';
-import { Image, CloudinaryContext } from 'cloudinary-react';
-import dynamic from 'next/dynamic';
-import ComplainsDisplayer from '../components/ComplainsDisplayer';
-import StandardButton from '../components/buttons/StandardButton';
-import { gql } from 'urql';
+import { Form, Formik } from "formik";
+import Router from "next/router";
+import { Provider } from "react-redux";
+import SelectCategory from "../components/SelectCategory";
+import SelectWard from "../components/SelectWard";
+import TextArea from "../components/TextArea";
+import { store } from "../store/store";
+import { Image, CloudinaryContext } from "cloudinary-react";
+import dynamic from "next/dynamic";
+import ComplainsDisplayer from "../components/ComplainsDisplayer";
+import StandardButton from "../components/buttons/StandardButton";
+import { gql } from "urql";
 
-const Map = dynamic(() => import('../components/Map'), {
+const Map = dynamic(() => import("../components/Map"), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
@@ -37,10 +37,10 @@ const Map = dynamic(() => import('../components/Map'), {
 interface CreateComplainProps {}
 
 interface FormValuesType {
-  category: 'Category' | 'Sewage' | 'Road' | 'Electricity' | 'Water';
+  category: "Category" | "Sewage" | "Road" | "Electricity" | "Water";
   title: string;
   description: string;
-  wardNo: 'Ward No.' | number;
+  wardNo: "Ward No." | number;
 }
 
 interface CloudinaryResponse {
@@ -61,7 +61,7 @@ let latitudeAndLongitudeActual: {
 
 const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
   const [createComplain] = useCreateComplainMutation();
-  const [imagePublicId, setImagePublicId] = useState('');
+  const [imagePublicId, setImagePublicId] = useState("");
   const [imageSelected, setImageSelected] = useState<FileList[0]>();
   const [loading, setLoading] = useState(false);
   const [mapModal, setMapModal] = useState(false);
@@ -74,10 +74,10 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
     console.log(e);
     setLoading(true);
     const formData = new FormData();
-    formData.append('file', e);
-    formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY);
+    formData.append("file", e);
+    formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY);
     const response: { data: CloudinaryResponse } = await axios.post(
-      'https://api.cloudinary.com/v1_1/infrastructure-ambulance/image/upload',
+      "https://api.cloudinary.com/v1_1/infrastructure-ambulance/image/upload",
       formData
     );
 
@@ -120,7 +120,7 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
             // @ts-ignore
             complains={[
               {
-                id: 'create-complain',
+                id: "create-complain",
               },
             ]}
             latlng={[
@@ -145,30 +145,30 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
           <Formik
             initialValues={
               {
-                category: 'Category',
-                wardNo: 'Ward No.',
-                title: '',
-                description: '',
+                category: "Category",
+                wardNo: "Ward No.",
+                title: "",
+                description: "",
               } as FormValuesType
             }
             onSubmit={async (values: FormValuesType, { setErrors }) => {
               // console.log(values);
-              if (values.category === 'Category') {
-                console.log('ran');
+              if (values.category === "Category") {
+                console.log("ran");
                 setErrors({
-                  category: 'This field is required.',
+                  category: "This field is required.",
                 });
               } else if (!values.title) {
                 setErrors({
-                  title: 'Please enter the title.',
+                  title: "Please enter the title.",
                 });
               } else if (!values.description) {
                 setErrors({
-                  description: 'Please enter the description.',
+                  description: "Please enter the description.",
                 });
-              } else if (values.wardNo === 'Ward No.') {
+              } else if (values.wardNo === "Ward No.") {
                 setErrors({
-                  wardNo: 'Please enter the Ward No.',
+                  wardNo: "Please enter the Ward No.",
                 });
                 //@ts-ignore
                 // } else if (!window.latitude && !window.longitude) {
@@ -177,11 +177,11 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                 //   });
               } else if (!imagePublicId) {
                 setErrors({
-                  description: 'Select an image',
+                  description: "Select an image",
                 });
               } else if (!latitudeAndLongitudeActual.latitude) {
                 setErrors({
-                  description: 'Select the location on the map',
+                  description: "Select the location on the map",
                 });
               } else {
                 const response = await createComplain({
@@ -201,87 +201,51 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                     } as ComplainInput,
                   },
 
-                  // update: (store, { data }) => {
-                  //   // const complainsData = store.readQuery<ComplainsQuery>({
-                  //   //   query: ComplainsDocument,
-                  //   // });
-                  //   let complainsData = store.readQuery<ComplainsQuery>({
-                  //     query: ComplainsDocument,
-                  //     variables: {
-                  //       limit: 15,
-                  //       cursor: null,
-                  //     },
-                  //   });
-                  //   console.log('1', complainsData);
-                  //   if (complainsData) {
-                  //     const array = [];
-                  //     array.push(data.createComplain);
-
-                  //     complainsData.complains.complains.forEach((complain) => {
-                  //       array.push(complain);
-                  //     });
-                  //     console.log(array);
-                  //     store.writeQuery<ComplainsQuery>({
-                  //       query: ComplainsDocument,
-                  //       data: {
-                  //         complains: {
-                  //           ...complainsData.complains,
-                  //           complains: array,
-                  //         },
-                  //       },
-                  //       variables: {
-                  //         limit: 15,
-                  //         cursor: null,
-                  //       },
-                  //     });
-                  //     complainsData = store.readQuery<ComplainsQuery>({
-                  //       query: ComplainsDocument,
-                  //       variables: {
-                  //         limit: 15,
-                  //         cursor: null,
-                  //       },
-                  //     });
-                  //     console.log('2', complainsData);
-                  //   }
-                  // },
-                  update: (cache, { data }) => {
-                    console.log(data);
-                    cache.modify({
-                      fields: {
-                        complains(existingComplains = []) {
-                          const newComplainRef = cache.writeFragment({
-                            data: data.createComplain,
-                            fragment: gql`
-                              fragment NewComplain on Complain {
-                                id
-                                title
-                                description
-                                category
-                                wardNo
-                                createdAt
-                                updatedAt
-                                imagePublicId
-                                latitude
-                                longitude
-                                user {
-                                  id
-                                  username
-                                }
-                              }
-                            `,
-                          });
-                          return [newComplainRef, ...existingComplains];
-                        },
+                  update: (store, { data }) => {
+                    // const complainsData = store.readQuery<ComplainsQuery>({
+                    //   query: ComplainsDocument,
+                    // });
+                    let complainsData = store.readQuery<ComplainsQuery>({
+                      query: ComplainsDocument,
+                      variables: {
+                        limit: 15,
+                        cursor: null,
                       },
                     });
+
+                    if (complainsData) {
+                      store.writeQuery<ComplainsQuery>({
+                        query: ComplainsDocument,
+                        data: {
+                          complains: {
+                            ...complainsData.complains,
+                            complains: [
+                              data.createComplain,
+                              ...complainsData.complains.complains,
+                            ],
+                          },
+                        },
+                        variables: {
+                          limit: 15,
+                          cursor: null,
+                        },
+                      });
+                      complainsData = store.readQuery<ComplainsQuery>({
+                        query: ComplainsDocument,
+                        variables: {
+                          limit: 15,
+                          cursor: null,
+                        },
+                      });
+                      console.log(complainsData);
+                    }
                   },
                 });
-                Router.push('/');
-
                 if (response.data.createComplain.id) {
+                  Router.push("/");
                 } else {
                   setErrors({
-                    description: 'An error occured.',
+                    description: "An error occured.",
                   });
                 }
               }
@@ -337,7 +301,7 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                             <div
                               className="spinner-border border-gray-700 animate-spin2 inline-block w-12 h-12 border-4 rounded-full"
                               style={{
-                                borderRightColor: 'transparent',
+                                borderRightColor: "transparent",
                               }}
                               role="status"
                             >
@@ -357,19 +321,19 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                             handleChange={uploadImage}
                             name="file"
                             types={[
-                              'JPEG',
-                              'JPG',
-                              'PNG',
-                              'GIF',
-                              'BMP',
-                              'TIFF',
-                              'PSD',
-                              'AI',
-                              'EPS',
-                              'SVG',
-                              'ICO',
-                              'PDF',
-                              'RAW',
+                              "JPEG",
+                              "JPG",
+                              "PNG",
+                              "GIF",
+                              "BMP",
+                              "TIFF",
+                              "PSD",
+                              "AI",
+                              "EPS",
+                              "SVG",
+                              "ICO",
+                              "PDF",
+                              "RAW",
                             ]}
                           />
                         )}
@@ -389,7 +353,7 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                                   h-10
                                   hover:bg-gray-600"
                                   onClick={() => {
-                                    setImagePublicId('');
+                                    setImagePublicId("");
                                   }}
                                 >
                                   Change
@@ -397,7 +361,7 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                               </div>
                             )}
                           </div>
-                        </CloudinaryContext>{' '}
+                        </CloudinaryContext>{" "}
                         <div className="mt-2 lg:hidden">
                           <StandardButton
                             onClick={() => {
@@ -436,7 +400,7 @@ const CreateComplain: React.FC<CreateComplainProps> = ({}) => {
                           // @ts-ignore
                           complains={[
                             {
-                              id: 'modal',
+                              id: "modal",
                             },
                           ]}
                           latlng={[
